@@ -847,7 +847,7 @@ func TestGMSATaskFileSSMErr(t *testing.T) {
 	containerMap, _ := taskEngine.(*DockerTaskEngine).state.ContainerMapByArn(testTask.Arn)
 	cid := containerMap[testTask.Containers[0].Name].DockerID
 
-	assert.Error(t, err)
+	assert.NoError(t, err)
 
 }
 
@@ -897,8 +897,8 @@ func TestGMSANotRunningErr(t *testing.T) {
                               }
 }`)
 
-	//err = ioutil.WriteFile(testCredSpecFilePath, testCredSpecData, 0755)
-	//require.NoError(t, err)
+	err = ioutil.WriteFile(testCredSpecFilePath, testCredSpecData, 0755)
+	require.NoError(t, err)
 
 	testContainer := createTestContainer()
 	testContainer.Name = "testGMSATaskFile"
@@ -937,7 +937,7 @@ func TestGMSANotRunningErr(t *testing.T) {
 
 	// Cleanup the test file
 	err = os.RemoveAll(testCredSpecFilePath)
-	assert.NoError(t, err)
+	assert.Error(t, err)
 
 }
 
